@@ -1,0 +1,18 @@
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - echo "Compiling the code..."
+    - echo "Compile complete."
+    - echo "mvn package"
+build-image:
+
+  before_script:
+    - docker login -u $DOCKER_ID -p $DOCKER_PASSWD
+  script:
+    - docker build -t smrutipriya/demo-app:1.0 .
+    - docker push smrutipriya/demo-app:1.0
+
